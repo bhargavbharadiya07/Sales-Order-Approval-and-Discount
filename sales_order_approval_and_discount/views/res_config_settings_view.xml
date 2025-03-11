@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_sale_config_settings_inherit" model="ir.ui.view">
+            <field name="name">sale.config.settings.form.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='connectors_setting_container']" position="after">
+                    <h2>Approval Threshold</h2>
+                    <div class="row mt16 o_settings_container" name="Approval Threshold Level">
+                        <div id="approval_threshold_level_1" class="col-12 col-lg-6 o_setting_box" >
+                            <div class="o_setting_right_pane">
+                                <div class="text-muted">
+                                    Approval Threshold Level 1 Amount
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="approval_threshold_level_1" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box" id="approval_threshold_level_2" >
+                            <div class="o_setting_right_pane">
+                                <div class="text-muted">
+                                    Approval Threshold Level 2 Amount
+                                </div>
+                                <div class="mt16">
+                                    <field name="approval_threshold_level_2" class="o_light_label"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

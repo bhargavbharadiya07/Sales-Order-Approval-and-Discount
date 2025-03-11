@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form.approval</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_cancel']" position="before">
+                <button name="action_submit_for_approval"
+                        string="Submit for Approval"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible': [('state', 'not in', ['draft','sent'])]}"/>
+
+                <button name="action_approve_level_1"
+                        string="Approve Level 1"
+                        type="object"
+                        class="btn-primary"
+                        groups="sales_order_approval_and_discount.group_order_level_1_approver"
+                        attrs="{'invisible': [('state', '!=', 'submitted')]}"/>
+
+                <button name="action_approve_level_2"
+                        string="Approve Level 2"
+                        type="object"
+                        class="btn-primary"
+                        groups="sales_order_approval_and_discount.group_order_level_2_approver"
+                        attrs="{'invisible': [('state', '!=', 'approved_level_1')]}"/>
+
+                <button name="action_open_reject_wizard"
+                        type="object"
+                        string="Reject"
+                        class="btn btn-primary"
+                        groups="sales_order_approval_and_discount.group_order_level_1_approver,sales_order_approval_and_discount.group_order_level_2_approver"
+                        attrs="{'invisible': [('state', 'not in', ['submitted','approved_level_1'])]}"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ['draft', 'sent','sale','approved','rejected']), ('id', '=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_draft']" position="attributes">
+                <attribute name="states">cancel,rejected</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'not in', ['approved'])]}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="loyalty_discount" string="Loyalty Discount (%)" readonly="1"/>
+                <field name="allow_edit_order" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="attrs">{'readonly': ['|',('state', 'in', ('done','cancel')),('allow_edit_order','!=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('allow_edit_order','!=',True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
